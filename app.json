@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "dana-clone",
+    "name": "",
     "slug": "dana-clone",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/dana_icon.png",
     "scheme": "danaclone",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -30,13 +30,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/dana_icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
+          "backgroundColor": "#118EE9"
         }
       ]
     ],
