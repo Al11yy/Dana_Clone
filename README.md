@@ -1,50 +1,109 @@
-# Welcome to your Expo app 👋
+#  DANA Clone App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+![Expo](https://img.shields.io/badge/Expo-4630EB?style=for-the-badge&logo=expo&logoColor=white)
+![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android-lightgrey?style=for-the-badge)
 
-## Get started
+A high-fidelity mobile UI clone of the **DANA Digital Wallet** application, built using **React Native**, **Expo**, and **TypeScript**. This project demonstrates modern mobile development practices, complex layout handling, and component reusability.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 📸 Screenshots
 
-2. Start the app
+<!-- Upload your screenshots to the 'assets' folder or an image host and link them here -->
+<!-- Example layout for screenshots -->
+| Home Screen | Deals Section |
+|:---:|:---:|
+| <img src="./assets/images/react-logo.png" width="250" alt="Home Screen" /> | <img src="./assets/images/react-logo.png" width="250" alt="Deals Section" /> |
 
-   ```bash
-   npx expo start
-   ```
+> *Note: Replace the placeholder images above with actual screenshots of your app.*
 
-In the output, you'll find options to open the app in a
+## ✨ Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+*   **Modern UI/UX**: Pixel-perfect replication of the DANA app interface.
+*   **Wallet Dashboard**:
+    *   Toggleable balance visibility (Eye icon interaction).
+    *   Custom action buttons (Top up, Request, Send, Inbox) with custom assets.
+*   **Interactive Layouts**:
+    *   **Parallax Headers**: Smooth scrolling effects.
+    *   **Overlapping Cards**: "Floating" main menu card effect using negative margins.
+    *   **Grid Systems**: Responsive service menu grid.
+*   **Components**:
+    *   Custom Cards (Vouchers, News, Feeds).
+    *   Promotional Banners with overlays.
+    *   Secure Info & Search bar implementation.
+*   **Navigation**: File-based routing using **Expo Router**.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🛠 Tech Stack
 
-## Get a fresh project
+-   **Framework**: [React Native](https://reactnative.dev/)
+-   **Platform**: [Expo](https://expo.dev/) (SDK 50+)
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **Routing**: [Expo Router](https://docs.expo.dev/router/introduction/)
+-   **Icons**: [Lucide React Native](https://lucide.dev/guide/packages/lucide-react-native) & Expo Vector Icons
+-   **Styling**: StyleSheet API & Flexbox
 
-When you're ready, run:
+## 🚀 Getting Started
 
-```bash
-npm run reset-project
+Follow these steps to run the project locally on your machine.
+
+### Prerequisites
+
+*   [Node.js](https://nodejs.org/) (LTS recommended)
+*   [Expo Go](https://expo.dev/client) app installed on your iOS/Android device.
+
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/dana-clone.git
+    cd dana-clone
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+
+3.  **Start the development server**
+    ```bash
+    npx expo start
+    ```
+
+4.  **Run on device**
+    *   Scan the QR code shown in the terminal using the **Expo Go** app.
+    *   Press `a` for Android Emulator or `i` for iOS Simulator.
+
+## 📂 Project Structure
+
+```
+dana-clone/
+├── app/
+│   ├── (tabs)/
+│   │   ├── index.tsx       # Main Home Screen (Wallet UI)
+│   │   ├── explore.tsx     # Explore Screen
+│   │   └── _layout.tsx     # Tab Navigation Config
+│   └── _layout.tsx         # Root Layout
+├── assets/
+│   └── images/             # Custom Icons & Static Images
+├── components/             # Reusable UI Components
+├── constants/              # Theme & Colors
+└── README.md
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🤝 Contributing
 
-## Learn more
+Contributions are welcome! If you have suggestions for improvements or want to add new features (like a Transaction History page), feel free to fork the repo and submit a pull request.
 
-To learn more about developing your project with Expo, look at the following resources:
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Made with ❤️ using React Native
