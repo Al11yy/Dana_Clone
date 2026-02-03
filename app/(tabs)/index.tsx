@@ -17,6 +17,7 @@ import {
 } from 'lucide-react-native';
 import React from 'react';
 import {
+  FlatList,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -29,6 +30,65 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const [showBalance, setShowBalance] = React.useState(true);
+  const flatListRef = React.useRef<FlatList>(null);
+  const bannerListRef = React.useRef<FlatList>(null);
+
+  // Data Voucher Infinite (Diduplikasi biar banyak)
+  const VOUCHER_DATA = React.useMemo(() => {
+      const baseData = [
+          [
+              { title: "Auntie Anne's", price: "Rp25.000", discPrice: "Rp15.000", type: "Culinary Voucher", discount: "-40%", color: "#1E3A8A", logo: require('@/assets/images/auntie-logo.png') },
+              { title: "Voucher Prima", price: "Rp10.000", discPrice: "Rp5.000", type: "Shopping Voucher", discount: "-50%", color: "#4ADE80", logo: require('@/assets/images/prima-logo.png') }
+          ],
+          [
+              { title: "Solaria e-Voucher", price: "Rp50.000", discPrice: "Rp45.000", type: "Culinary Voucher", discount: "-10%", color: "#9333EA", logo: require('@/assets/images/solaria-logo.png') },
+              { title: "Miniso Voucher", price: "Rp25.000", discPrice: "Rp20.000", type: "Shopping Voucher", discount: "-20%", color: "#F59E0B", logo: require('@/assets/images/miniso-logo.png') }
+          ]
+      ];
+      // Duplicate 5x biar jadi 10 item (Infinite feel)
+      return [...baseData, ...baseData, ...baseData, ...baseData, ...baseData];
+  }, []);
+
+  // Data Banner Infinite
+  const BANNER_DATA = React.useMemo(() => {
+      const baseData = [
+          require('@/assets/images/banner-1.png'),
+          require('@/assets/images/banner-2.png'),
+          require('@/assets/images/banner-3.png'),
+          require('@/assets/images/banner-4.png'),
+      ];
+      return [...baseData, ...baseData, ...baseData, ...baseData, ...baseData];
+  }, []);
+
+  // Auto Scroll Logic
+  React.useEffect(() => {
+      let index = 0;
+      const interval = setInterval(() => {
+          index++;
+          if (index >= VOUCHER_DATA.length) {
+              index = 0;
+              flatListRef.current?.scrollToIndex({ index: 0, animated: false }); // Reset instan ke awal
+          } else {
+              flatListRef.current?.scrollToIndex({ index, animated: true });
+          }
+      }, 3000); // Scroll tiap 3 detik
+      return () => clearInterval(interval);
+  }, [VOUCHER_DATA]);
+
+  // Auto Scroll Logic Banner
+  React.useEffect(() => {
+      let index = 0;
+      const interval = setInterval(() => {
+          index++;
+          if (index >= BANNER_DATA.length) {
+              index = 0;
+              bannerListRef.current?.scrollToIndex({ index: 0, animated: false });
+          } else {
+              bannerListRef.current?.scrollToIndex({ index, animated: true });
+          }
+      }, 3000);
+      return () => clearInterval(interval);
+  }, [BANNER_DATA]);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#F5F6F8' }}>
@@ -46,7 +106,7 @@ export default function HomeScreen() {
           <View style={styles.balanceContainer}>
             <Text style={styles.currencyText}>Rp</Text> 
             <Text style={styles.balanceText}>
-              {showBalance ? '0' : '••• '}
+              {showBalance ? '100.000' : '••• '}
             </Text> 
             <TouchableOpacity onPress={() => setShowBalance(!showBalance)}>
                 {showBalance ? (
@@ -114,20 +174,23 @@ export default function HomeScreen() {
           </View>
 
           {/* 4. PROMO BANNER */}
-          <View style={styles.bannerContainer}>
-              <Image 
-                  source={{ uri: 'https://img.freepik.com/free-vector/gradient-refund-illustration_23-2150348753.jpg' }} 
-                  style={styles.bannerImage}
-              />
-              <View style={styles.bannerOverlay}>
-                   <View style={styles.protectionBadge}>
-                      <ShieldCheck size={12} color="#118EEA" />
-                      <Text style={styles.protectionText}>DANA PROTECTION</Text>
-                   </View>
-                   <Text style={styles.bannerTitle}>JAMINAN 100% {"\n"}UANG KEMBALI</Text>
-                   <Text style={styles.bannerSub}>#AMANDARIBADMAN</Text>
+          <FlatList
+            ref={bannerListRef}
+            data={BANNER_DATA}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 30, gap: 16 }}
+            style={{ marginTop: 16 }}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={[styles.bannerContainer, { marginHorizontal: 0, marginTop: 0, width: 300 }]}>
+                  <Image 
+                      source={item} 
+                      style={styles.bannerImage}
+                  />
               </View>
-          </View>
+            )}
+          />
 
           {/* 5. INFO & SEARCH */}
           <View style={styles.infoCard}>
@@ -168,24 +231,23 @@ export default function HomeScreen() {
                   </TouchableOpacity>
               </View>
 
-              <VoucherCard 
-                  title="Auntie Anne's" 
-                  price="Rp25.000" 
-                  discPrice="Rp15.000"
-                  type="Culinary Voucher"
-                  discount="-40%"
-                  color="#1E3A8A"
-                  logo="https://cdn-icons-png.flaticon.com/512/5717/5717438.png"
+              <FlatList
+                  ref={flatListRef}
+                  data={VOUCHER_DATA}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{ gap: 12 }}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({ item }) => (
+                      <View style={{ gap: 12 }}>
+                          {item.map((voucher: any, i: number) => (
+                              <VoucherCard key={i} {...voucher} />
+                          ))}
+                      </View>
+                  )}
               />
-              <VoucherCard 
-                  title="Voucher Pack" 
-                  price="Rp10.000" 
-                  discPrice="Rp5.000"
-                  type="Shopping Voucher"
-                  discount="-50%"
-                  color="#4ADE80"
-                  logo="https://cdn-icons-png.flaticon.com/512/3081/3081840.png"
-              />
+
+
           </View>
 
           {/* 7. WHAT'S NEW */}
@@ -218,11 +280,20 @@ export default function HomeScreen() {
                   />
               </View>
           </View>
-          
+
+          <Text style={{textAlign:'center', color: '#888', fontSize: 14, marginTop: 10, marginTop: 50}} >DANA Indonesia terdaftar serta diawasi</Text>
+          <Text style={{textAlign:'center', color: '#888', fontSize: 14, marginBottom: 80}} >Oleh <Text style={{fontWeight: 'bold'}}>Bank Indonesia</Text> dan <Text style={{fontWeight: 'bold'}}>Komdigi</Text></Text>
+         
           <View style={{height: 50}} /> 
         </ScrollView>
+
+
+
       </SafeAreaView>
       
+      
+
+    
     </View>
 
   );
@@ -260,7 +331,7 @@ const VoucherCard = ({ title, price, discPrice, type, discount, color, logo }: a
     <View style={styles.voucherCard}>
         <View style={[styles.voucherLeft, { backgroundColor: color }]}>
             <View style={styles.voucherLogoBg}>
-                <Image source={{ uri: logo }} style={{ width: 24, height: 24 }} resizeMode="contain" />
+                <Image source={logo} style={{ width: 24, height: 24 }} contentFit="contain" />
             </View>
             <View style={{ flex: 1 }}>
                 <Text style={styles.voucherTitle} numberOfLines={1}>{title}</Text>
@@ -299,8 +370,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#118EE9',
-    paddingTop: 25,
-    paddingBottom: 10,
+    paddingTop: 20,
+    paddingBottom: 15,
     paddingHorizontal: 16,
     gap: 10,
   },
@@ -366,11 +437,8 @@ const styles = StyleSheet.create({
     marginTop: -50, // NEGATIVE MARGIN: Kunci biar numpuk ke atas
     borderRadius: 12,
     padding: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   mainCardHeader: {
     flexDirection: 'row',
@@ -424,11 +492,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     gap: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   feedItem: {
     flexDirection: 'row',
@@ -456,52 +521,18 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     height: 140,
-    backgroundColor: '#0F4C81',
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowColor: '#000',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   bannerImage: {
     width: '100%',
     height: '100%',
-    opacity: 0.6,
   },
   bannerOverlay: {
     position: 'absolute',
     top: 20,
     left: 20,
-  },
-  protectionBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    alignSelf: 'flex-start',
-    marginBottom: 8,
-    gap: 4
-  },
-  protectionText: {
-    color: '#118EE9',
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-  bannerTitle: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '900',
-    fontStyle: 'italic',
-  },
-  bannerSub: {
-      color: '#fff',
-      fontSize: 10,
-      fontWeight: 'bold',
-      marginTop: 4,
-      fontStyle: 'italic',
-      opacity: 0.8
   },
 
   // INFO & SEARCH -> JADI CARD
@@ -511,11 +542,8 @@ const styles = StyleSheet.create({
     marginTop: 16, // RAPIHIN GAP
     borderRadius: 12,
     overflow: 'hidden', // Biar header biru ngikutin radius card
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   blueInfoBar: {
     backgroundColor: '#118EE9',
@@ -557,11 +585,8 @@ const styles = StyleSheet.create({
     marginTop: 16, // RAPIHIN GAP (Ganti marginBottom jadi marginTop biar konsisten)
     borderRadius: 12,
     padding: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -600,7 +625,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: '#E0E0E0',
-    marginBottom: 12,
+    width: 280,
   },
   voucherLeft: {
     flex: 2,
