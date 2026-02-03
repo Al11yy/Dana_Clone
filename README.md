@@ -17,8 +17,6 @@ A high-fidelity mobile UI clone of the **DANA Digital Wallet** application, buil
 |:---:|:---:|
 | <img src="./assets/images/dana_icon.png" width="250" alt="Home Screen" /> | <img src="./assets/images/dana_logo_splash.png" width="250" alt="Deals Section" /> |
 
-> *Note: Replace the placeholder images above with actual screenshots of your app.*
-
 ## ✨ Features
 
 *   **Modern UI/UX**: Pixel-perfect replication of the DANA app interface.
