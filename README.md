@@ -15,7 +15,7 @@ A high-fidelity mobile UI clone of the **DANA Digital Wallet** application, buil
 <!-- Example layout for screenshots -->
 | Home Screen | Deals Section |
 |:---:|:---:|
-| <img src="./assets/images/react-logo.png" width="250" alt="Home Screen" /> | <img src="./assets/images/react-logo.png" width="250" alt="Deals Section" /> |
+| <img src="./assets/images/dana_logo.png" width="250" alt="Home Screen" /> | <img src="./assets/images/dana_logo_splash.png" width="250" alt="Deals Section" /> |
 
 > *Note: Replace the placeholder images above with actual screenshots of your app.*
 
