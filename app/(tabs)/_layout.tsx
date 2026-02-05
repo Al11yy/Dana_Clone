@@ -1,18 +1,21 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Platform } from 'react-native';
 // Gue pake Lucide icons biar konsisten sama kode lo sebelumnya
 import { FileText, Wallet, User, QrCode } from 'lucide-react-native'; 
 
 // 1. Komponen Tombol PAY Bulat Besar
-const CustomPayButton = ({ children, onPress }: any) => (
+const CustomPayButton = ({ children, onPress, style, ...rest }: any) => (
   <TouchableOpacity
-    style={{
-      top: -24, // Bikin tombol naik ke atas (Floating effect)
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...styles.shadow // Kasih bayangan biar pop-up
-    }}
+    {...rest}
+    style={[
+      {
+        top: -24, // Bikin tombol naik ke atas (Floating effect)
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      style,
+    ]}
     onPress={onPress}
     activeOpacity={0.9}
   >
@@ -32,6 +35,8 @@ const CustomPayButton = ({ children, onPress }: any) => (
 );
 
 export default function TabLayout() {
+  const router = useRouter();
+
   return (
     <Tabs
       screenOptions={{
@@ -89,6 +94,12 @@ export default function TabLayout() {
       {/* 3. PAY TAB (TOMBOL TENGAH SPESIAL) */}
       <Tabs.Screen
         name="pay" // Pastikan lo bikin file pay.tsx (buat scanner misalnya)
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.push('/pay-modal');
+          },
+        }}
         options={{
           title: 'PAY',
           tabBarLabelStyle: { display: 'none' }, // Sembunyiin label default di bawah
